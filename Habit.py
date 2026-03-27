@@ -23,3 +23,15 @@ def add_habit(habit_dictionary):
     habit_dictionary[habit] = []
     return habit_dictionary
         
+def mark_habit(habit_dictionary, index):
+    marker = input("'Y' to mark complete, 'N' to mark incomplete: ")
+    if marker == "Y":
+        habit_dictionary[index].append(1)
+        return habit_dictionary
+    
+    elif marker == "N":
+        habit_dictionary[index].append(2)
+        return habit_dictionary
+    
+    else:
+        print("Invalid Choice")
