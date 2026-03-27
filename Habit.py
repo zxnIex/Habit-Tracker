@@ -1,5 +1,9 @@
 import json
 
+habit_name = list(habit_dictionary)[index]
+habit_marker = habit_dictionary[habit_name]
+
+
 def load_habits():
     habit_dictionary = {}
 
@@ -20,31 +24,35 @@ def save_habits(habit_dictionary):
 
 def add_habit(habit_dictionary):
     habit = input("Habit: ")
-    habit_dictionary[habit] = []
-    return habit_dictionary
+    while True:
+        if habit in habit_dictionary:
+            print("Habit already exits")
+            continue
+        
+        else:
+            habit_dictionary[habit] = []
+            return habit_dictionary
+    
         
 def mark_habit(habit_dictionary, index):
     marker = input("'Y' to mark complete, 'N' to mark incomplete: ")
-    habit_name = list(habit_dictionary)[index]
 
     if marker == "Y":
-        habit_dictionary[habit_name].append(1)
+        habit_marker.append(1)
         return habit_dictionary
     
     elif marker == "N":
-        habit_dictionary[habit_name].append(0)
+        habit_marker.append(0)
         return habit_dictionary
     
     else:
         print("Invalid Choice")
 
 def delete_habit(habit_dictionary, index):
-    habit_delete = list(habit_dictionary)[index]
-    habit_dictionary.pop(habit_delete)
+    habit_dictionary.pop(habit_name)
     return habit_dictionary
 
 def calculate_streaks(habit_dictionary, index):
-    habit_marker = habit_dictionary[list(habit_dictionary)[index]]
     current_streak = 0
     max_streak = 0
     for day in habit_marker:
@@ -59,7 +67,6 @@ def calculate_streaks(habit_dictionary, index):
     return max_streak
 
 def calc_current_streak(habit_dictionary, index):
-    habit_marker = habit_dictionary[list(habit_dictionary)[index]]
     current_streak = 0
     for day in reversed(habit_marker):
         if day == 1:
@@ -70,12 +77,10 @@ def calc_current_streak(habit_dictionary, index):
     return current_streak
 
 def days_tracked(habit_dictionary, index):
-    habit_marker = habit_dictionary[list(habit_dictionary)[index]]
     total_days = len(habit_marker)
     return total_days
 
 def days_completed(habit_dictionary, index):
-    habit_marker = habit_dictionary[list(habit_dictionary)[index]]
     complete_days = sum(habit_marker)
     return complete_days
 
@@ -94,10 +99,13 @@ def view_habits(habit_dictionary):
         print("Current Streak For " + habit + " Is: " + str(current_streak))
         print("Total Days Tracked For " + habit + " Is " + str(total_days))
         print("Total Days Completed For " + habit + " Is " + str(complete_days))
+        print("Percentage Complete Is " + (complete_days/total_days)"%")
 
         print("\n")
 
 while True:
+    habit_name = list(habit_dictionary)[index]
+    habit_marker = habit_dictionary[habit_name]
     view_habits(habit_dictionary)
 
     print("1. Add Habit")
