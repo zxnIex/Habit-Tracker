@@ -50,16 +50,19 @@ def calculate_streaks(habit_dictionary, index):
     for day in habit_marker:
         if day == 1:
             current_streak += 1
-            if current_streak > max_streak
+            if current_streak > max_streak:
                 max_streak = current_streak
+                
         elif day == 0:
             current_streak = 0
+
+    return max_streak
 
 def view_habits(habit_dictionary):
     for i, (habit, marker) in enumerate(habit_dictionary.items()):
         print(str(i) + ". " + habit + ": " + str(marker))
-        calculate_streaks(habit_dictionary, i)
-        print("Max Streak Is: " + max_streak)
+        max = calculate_streaks(habit_dictionary, i)
+        print("Max Streak For " + habit + " Is: " + str(max))
         print("\n")
 
 while True:
