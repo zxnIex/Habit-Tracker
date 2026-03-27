@@ -22,7 +22,7 @@ def add_habit(habit_dictionary):
     habit = input("Habit: ")
     while True:
         habit = input("Habit: ")
-        
+
         if habit in habit_dictionary:
             print("Habit already exits")
             continue
@@ -121,8 +121,6 @@ def view_habits(habit_dictionary):
         print("\n")
 
 while True:
-    habit_name = list(habit_dictionary)[index]
-    habit_marker = habit_dictionary[habit_name]
     view_habits(habit_dictionary)
 
     print("1. Add Habit")
