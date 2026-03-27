@@ -25,13 +25,13 @@ def add_habit(habit_dictionary):
         
 def mark_habit(habit_dictionary, index):
     marker = input("'Y' to mark complete, 'N' to mark incomplete: ")
+    habit_name = list(habit_dictionary)[index]
+
     if marker == "Y":
-        habit_name = list(habit_dictionary)[index]
         habit_dictionary[habit_name].append(1)
         return habit_dictionary
     
     elif marker == "N":
-        habit_name = list(habit_dictionary)[index]
         habit_dictionary[habit_name].append(0)
         return habit_dictionary
     
@@ -70,13 +70,13 @@ while True:
                 index = int(input("Choose Habit: "))
                 if index < 0 or index >= len(habit_dictionary):
                     print("Invalid Index")
-                    break
+                    continue
+
+                mark_habit(habit_dictionary, index)
+                break
 
             except ValueError:
                 print("Please input a number: ")
-
-            mark_habit(habit_dictionary, index)
-            break
     
     elif choice == "3":
         if not habit_dictionary:
@@ -90,11 +90,11 @@ while True:
                     print("Invalid Index")
                     break
 
+                delete_habit(habit_dictionary, index)
+                break
+
             except ValueError:
                 print("Please input a number: ")
-
-            delete_habit(habit_dictionary, index)
-            break
 
     elif choice == "4":
         save_habits(habit_dictionary)
