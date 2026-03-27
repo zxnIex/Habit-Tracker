@@ -35,3 +35,12 @@ def mark_habit(habit_dictionary, index):
     
     else:
         print("Invalid Choice")
+
+def delete_habit(habit_dictionary, index):
+    habit_delete = list(habit_dictionary)[index]
+    habit_dictionary.pop(habit_delete)
+    return habit_dictionary
+
+def view_habits():
+    for i, (habit, marker) in enumerate(habit_dictionary.items()):
+        print(i + ". " + habit + ": " + marker)
