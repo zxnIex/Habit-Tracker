@@ -4,7 +4,7 @@ def load_habits():
     habit_dictionary = {}
 
     try:
-        with open("habits.json", "r", encoding="utf-8") as file:
+        with open("habits2.json", "r", encoding="utf-8") as file:
             habit_dictionary = json.load(file)       
     
     except FileNotFoundError:
@@ -15,7 +15,7 @@ def load_habits():
 habit_dictionary = load_habits()
 
 def save_habits(habit_dictionary):
-    with open("habits.json", "w", encoding="utf-8") as file:
+    with open("habits2.json", "w", encoding="utf-8") as file:
         json.dump(habit_dictionary, file, indent = 4)
 
 def add_habit(habit_dictionary):
