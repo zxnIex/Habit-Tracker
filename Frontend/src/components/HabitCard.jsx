@@ -1,4 +1,4 @@
-function HabitCard({ habit, onComplete }) {
+function HabitCard({ habit, onComplete, onDelete }) {
   return (
     <li className="habit-row">
       <div className="habit-info">
@@ -13,6 +13,12 @@ function HabitCard({ habit, onComplete }) {
         disabled={habit.completed}
       >
         {habit.completed ? "Done" : "Complete"}
+      </button>
+      <button
+        className="delete-btn"
+        onClick={() => onDelete(habit.id)}
+      >
+        Delete
       </button>
     </li>
   );
