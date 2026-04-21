@@ -4,27 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Habit Tracker</title>
-  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Habit Tracker</h1>
-      <p class="date" id="today-date"></p>
-    </header>
-
-    <ul class="habit-list" id="habit-list">
-    </ul>
-
-    <div class="add-section">
-      <p class="add-label">Add habit</p>
-      <div class="add-form">
-        <input type="text" id="habit-input" placeholder="e.g. Go for a walk" />
-        <button id="add-btn">Add</button>
-      </div>
-    </div>
-  </div>
-
-  <script src="main.js"></script>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>
