@@ -19,6 +19,7 @@ export default function useHabits() {
       name,
       streak: 0,
       completed: false,
+      lastCompleted: null, 
     };
 
     setHabits(prev => [...prev, newHabit]);
@@ -29,14 +30,36 @@ export default function useHabits() {
   }
 
   function completeHabit(id) {
+    const today = new Date().toDateString();
+
     setHabits(prev =>
-      prev.map(habit =>
-        habit.id === id
-          ? { ...habit, completed: !habit.completed, streak: !habit.completed ? habit.streak + 1 : habit.streak, }
-          : habit
-      )
+      prev.map(habit => {
+        if (habit.id !== id) return habit;
+
+        if (habit.lastCompleted === today) return habit;
+
+        return {
+          ...habit,
+          completed: true,
+          streak: habit.lastCompleted
+            ? habit.streak + 1
+            : 1,
+          lastCompleted: today,
+        };
+      })
     );
   }
+
+  useEffect(() => {
+    const today = new Date().toDateString();
+
+    setHabits(prev =>
+      prev.map(habit => ({
+        ...habit,
+        completed: habit.lastCompleted === today,
+      }))
+    );
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("habits", JSON.stringify(habits));
