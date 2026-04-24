@@ -1,5 +1,6 @@
-import HabitList from "./components/HabitList.jsx";
-import useHabits from "./hooks/useHabits.js";
+import useHabits from "./hooks/useHabits";
+import HabitList from "./components/HabitList";
+import StreakChart from "./components/StreakChart";
 import { useState } from "react";
 
 function App() {
@@ -12,11 +13,6 @@ function App() {
     month: "long",
   });
 
-  function handleAdd() {
-    addHabit(input);
-    setInput("");
-  }
-
   return (
     <div className="container">
       <header>
@@ -24,26 +20,21 @@ function App() {
         <p className="date">{today}</p>
       </header>
 
-      <HabitList
-        habits={habits}
-        onComplete={completeHabit}
-        onDelete={deleteHabit}
-      />
+      <HabitList habits={habits} onComplete={completeHabit} onDelete={deleteHabit} />
+
+      <StreakChart habits={habits} />
 
       <div className="add-section">
         <p className="add-label">Add habit</p>
-
         <div className="add-form">
           <input
             type="text"
-            className="habit-input"
             placeholder="e.g. Go for a walk"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleAdd()}
+            onKeyDown={(e) => { if (e.key === "Enter") { addHabit(input); setInput(""); } }}
           />
-
-          <button onClick={handleAdd}>Add</button>
+          <button onClick={() => { addHabit(input); setInput(""); }}>Add</button>
         </div>
       </div>
     </div>

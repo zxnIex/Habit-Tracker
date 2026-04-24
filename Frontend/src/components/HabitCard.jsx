@@ -7,19 +7,18 @@ function HabitCard({ habit, onComplete, onDelete }) {
         </span>
         <span className="streak">{habit.streak} day streak</span>
       </div>
-      <button
-        className="complete-btn"
-        onClick={() => onComplete(habit.id)}
-        disabled={habit.completed}
-      >
-        {habit.completed ? "Done" : "Complete"}
-      </button>
-      <button
-        className="delete-btn"
-        onClick={() => onDelete(habit.id)}
-      >
-        Delete
-      </button>
+      <div style={{ display: "flex", gap: "0.5rem" }}>
+        <button
+          className="complete-btn"
+          onClick={() => onComplete(habit.id)}
+          disabled={habit.completed}
+        >
+          {habit.completed ? "Done" : "Complete"}
+        </button>
+        <button className="delete-btn" onClick={() => onDelete(habit.id)}>
+          Delete
+        </button>
+      </div>
     </li>
   );
 }

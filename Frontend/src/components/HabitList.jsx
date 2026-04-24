@@ -1,4 +1,4 @@
-import HabitCard from "./HabitCard.jsx";
+import HabitCard from "./HabitCard";
 
 function HabitList({ habits, onComplete, onDelete }) {
   return (
