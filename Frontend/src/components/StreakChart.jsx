@@ -11,8 +11,8 @@ function StreakChart({ habits }) {
       <p className="add-label">Streak chart</p>
       <ResponsiveContainer width="100%" height={200}>
         <BarChart data={data}>
-          <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-          <YAxis allowDecimals={false} tick={{ fontSize: 12 }} />
+          <XAxis dataKey="name" tick={{ fontSize: 12 }}label={{ value: "Habit", position: "insideBottom", offset: -5 }}/>
+          <YAxis allowDecimals={false} tick={{ fontSize: 12 }}label={{ value: "Streak", angle: -90, position: "insideLeft" }}/>
           <Tooltip />
           <Bar dataKey="streak" fill="#1a1a1a" radius={[4, 4, 0, 0]} />
         </BarChart>
