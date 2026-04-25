@@ -2,73 +2,59 @@ import { useState, useEffect } from "react";
 
 export default function useHabits() {
   const [habits, setHabits] = useState(() => {
-    const saved = localStorage.getItem("habits");
-
     try {
-        return saved ? JSON.parse(saved) : [];
+      const saved = localStorage.getItem("habits");
+      return saved ? JSON.parse(saved) : [];
     } catch (e) {
-        return [];
+      return [];
     }
-    });
+  });
 
-  function addHabit(name) {
+  function addHabit(name, category = "general", frequency = "daily") {
     if (!name.trim()) return;
-
-    const newHabit = {
+    setHabits(prev => [...prev, {
       id: Date.now(),
-      name,
-      streak: 0,
-      completed: false,
-      lastCompleted: null, 
-    };
-
-    setHabits(prev => [...prev, newHabit]);
+      name: name.trim(),
+      category,
+      frequency,
+      completedDates: [],
+    }]);
   }
 
   function deleteHabit(id) {
-    setHabits(prev => prev.filter(habit => habit.id !== id));
+    setHabits(prev => prev.filter(h => h.id !== id));
   }
 
-  function completeHabit(id) {
-    const today = new Date().toDateString();
-
-    setHabits(prev =>
-      prev.map(habit => {
-        if (habit.id !== id) return habit;
-
-        if (habit.lastCompleted === today) return habit;
-
-        return {
-          ...habit,
-          completed: true,
-          streak: habit.lastCompleted
-            ? habit.streak + 1
-            : 1,
-          lastCompleted: today,
-        };
-      })
-    );
+  function completeHabit(id, dateString) {
+    setHabits(prev => prev.map(habit => {
+      if (habit.id !== id) return habit;
+      const already = habit.completedDates.includes(dateString);
+      const updatedDates = already
+        ? habit.completedDates.filter(d => d !== dateString)
+        : [...habit.completedDates, dateString];
+      return { ...habit, completedDates: updatedDates };
+    }));
   }
 
-  useEffect(() => {
-    const today = new Date().toDateString();
-
-    setHabits(prev =>
-      prev.map(habit => ({
-        ...habit,
-        completed: habit.lastCompleted === today,
-      }))
-    );
-  }, []);
+  function getStreak(habit) {
+    const today = new Date();
+    let streak = 0;
+    let current = new Date(today);
+    while (true) {
+      const dateStr = current.toISOString().split("T")[0];
+      if (habit.completedDates.includes(dateStr)) {
+        streak++;
+        current.setDate(current.getDate() - 1);
+      } else {
+        break;
+      }
+    }
+    return streak;
+  }
 
   useEffect(() => {
     localStorage.setItem("habits", JSON.stringify(habits));
-    }, [habits]);
+  }, [habits]);
 
-  return {
-    habits,
-    addHabit,
-    deleteHabit,
-    completeHabit,
-  };
+  return { habits, addHabit, deleteHabit, completeHabit, getStreak };
 }
