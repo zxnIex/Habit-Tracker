@@ -1,44 +1,29 @@
 import useHabits from "./hooks/useHabits";
-import HabitList from "./components/HabitList";
+import useFilter from "./hooks/useFilter";
+import HabitList from "./components/habitlist";
+import AddHabitForm from "./components/AddHabitForm";
+import FilterBar from "./components/FilterBar";
 import StreakChart from "./components/StreakChart";
-import { useState } from "react";
+import TopBar from "./components/TopBar";
 
-function App() {
-  const { habits, addHabit, completeHabit, deleteHabit } = useHabits();
-  const [input, setInput] = useState("");
-
-  const today = new Date().toLocaleDateString("en-GB", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-  });
+export default function App() {
+  const { habits, addHabit, deleteHabit, completeHabit, getStreak } = useHabits();
+  const { filtered, activeCategory, setActiveCategory, categories } = useFilter(habits);
 
   return (
-    <div className="container">
-      <header>
-        <h1>Habit Tracker</h1>
-        <p className="date">{today}</p>
-      </header>
-
-      <HabitList habits={habits} onComplete={completeHabit} onDelete={deleteHabit} />
-
-      <StreakChart habits={habits} />
-
-      <div className="add-section">
-        <p className="add-label">Add habit</p>
-        <div className="add-form">
-          <input
-            type="text"
-            placeholder="e.g. Go for a walk"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => { if (e.key === "Enter") { addHabit(input); setInput(""); } }}
-          />
-          <button onClick={() => { addHabit(input); setInput(""); }}>Add</button>
-        </div>
+    <>
+      <TopBar habits={habits} />
+      <div className="layout">
+        <FilterBar categories={categories} activeCategory={activeCategory} onSelect={setActiveCategory} />
+        <HabitList
+          habits={filtered}
+          onComplete={completeHabit}
+          onDelete={deleteHabit}
+          getStreak={getStreak}
+        />
+        <AddHabitForm onAdd={addHabit} />
+        <StreakChart habits={filtered} getStreak={getStreak} />
       </div>
-    </div>
+    </>
   );
 }
-
-export default App;
